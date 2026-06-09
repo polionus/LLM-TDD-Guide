@@ -31,6 +31,7 @@ The following are never delegated to the LLM, even when it would be faster:
 - Writing behavioral specifications in prose
 - Authoring examples and edge cases (even rough ones)
 - Writing pseudocode when intrinsic load is present (see Pseudocode Ladder)
+- Writing the test logic — assertions, cases, and the intent behind each test
 - Making design decisions when tradeoffs are present
 - Understanding why a component works, not just that it does
 - Signing off on all specifications before tests are written
@@ -39,7 +40,7 @@ The following are never delegated to the LLM, even when it would be faster:
 ### Extraneous Load — What the LLM Always Owns
 
 - Translating pseudocode and prose specs into working code
-- Writing test boilerplate and framework wiring
+- Writing test file boilerplate and framework wiring — never test logic
 - Formatting, linting, and style compliance
 - Finalizing and polishing examples provided by the user
 - Maintaining the workbench, log, reports, debt tracker, and mindmap
@@ -174,18 +175,21 @@ prose spec  →  examples & edge cases  →  pseudocode (if applicable)  →  te
 
 The user writes the behavioral specification — what the component should do, in prose.
 The user provides examples and edge cases, even if rough or incomplete.
-The LLM translates the spec and examples into formal test code, using the agreed test framework.
-The LLM flags gaps in the spec (missing edge cases, ambiguous behavior) as questions, not assumptions.
+The user writes all test logic: the assertions, the cases, and the intent behind each one.
+The LLM writes test file boilerplate and framework wiring around the user's test logic.
+The LLM never generates test cases on its own. If the user asks it to, it nudges instead.
+The LLM flags gaps — missing edge cases, ambiguous behavior — as questions, not as tests it writes itself.
 Both the user and the LLM see test failures together. Both can propose fixes; the user decides.
 
 **Before writing tests, there is a spec-in-prose step.** The user writes — in plain language —
 what the component does, what it does not do, and at least two concrete examples. This is not
 optional. It is the primary intrinsic-load moment of the loop, and it comes before anything else.
 
-**How many tests:** Many. The LLM uses a coverage heuristic (happy path, boundary conditions,
-failure modes, type/shape contracts) as a checklist, and applies judgment for the specific
-component. The user reviews and can request more. "Enough" is a judgment call made together,
-after the checklist is satisfied.
+**How many tests:** Many. The LLM actively encourages the user to think of more — surfacing
+the coverage heuristic (happy path, boundary conditions, failure modes, type/shape contracts)
+as a prompt, not as a list it fills in. The LLM asks: "What happens if X is empty? What if
+Y is negative?" The user answers by writing the test. "Enough" is a judgment call made
+together, after the checklist has been walked through with the user.
 
 **Tests are never optional.** Unit, component, and integration tests are all written before
 implementation. The granularity depends on the component; the requirement does not.
@@ -240,7 +244,7 @@ Proposal (user or LLM)
   → Conversation — clarify, challenge, offer alternatives
   → Spec in prose (user writes)
   → Pseudocode if intrinsic load is present (user writes, LLM translates)
-  → Tests (LLM formalizes, user reviews)
+  → Tests (user writes logic, LLM writes boilerplate, LLM nudges toward coverage)
   → Implementation (LLM writes, user reviews)
   → Report (LLM writes)
   → Review & assent (user closes the handshake)
@@ -438,9 +442,12 @@ Example nudge:
 
 Nudges do not prescribe what to write. They open a space. The user decides whether to fill it.
 
-**The anti-crutch check:** If the user asks the LLM to write a spec, define behavior, or
-produce examples from scratch — without any input — the LLM pauses and nudges instead.
-The LLM never writes the spec. It translates, formalizes, and challenges.
+**The anti-crutch check:** If the user asks the LLM to write a spec, define behavior,
+produce examples from scratch, or generate test cases — without any input — the LLM pauses
+and nudges instead. The LLM never writes the spec. It never writes test logic. It translates,
+formalizes, scaffolds, and challenges. When nudging toward tests, it asks questions that
+help the user think of cases: "What should happen if the input is empty?" "What's the
+largest input this needs to handle?" The user answers by writing the test.
 
 ---
 
