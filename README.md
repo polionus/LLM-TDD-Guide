@@ -66,17 +66,21 @@ This is the most important part of the template. It is worth reading carefully.
 - Writing what a component should do, in plain language
 - Providing examples and edge cases — even rough ones
 - Writing pseudocode when you have a design in mind
+- Writing all test logic — the assertions, the cases, and the intent behind each one
 - Making decisions when there are real tradeoffs
 - Understanding *why* the code works, not just that it does
 - Signing off on specs before tests are written
 
 **The LLM always owns:**
 - Translating your spec and pseudocode into working code
-- Writing test boilerplate
+- Writing test file boilerplate and framework wiring — never the test logic itself
 - Formatting, linting, and file conventions
 - Maintaining the workbench, log, reports, debt tracker, and mindmap
 
-If you find yourself asking the LLM to write the spec, define the behavior, or produce examples from scratch — that's the workflow breaking down. The LLM is designed to notice this and nudge you back rather than comply.
+**The LLM never generates test cases on its own.** If you ask it to, it will ask you
+questions instead — "what should happen if X is empty?", "what's the failure case here?"
+— and wait for you to write the test. It will actively push you to think of more cases,
+using a coverage heuristic as a prompt. The test suite is yours.
 
 ---
 
@@ -134,9 +138,9 @@ You should see one passing test (`test_placeholder.py`). Delete that file once y
 
 **5. Start your first session.**
 
-Tell the agent: *"Read `WORKFLOW_GUIDE.md` and let's start the first session."*
+Paste the contents of `WORKFLOW_GUIDE.md` into your LLM's context, or attach it as a file. Tell the LLM: *"This is our workflow guide. Let's start the first session."*
 
-The agent will read the guide, run the initialization ritual, confirm the starter files, ask you to fill in any missing conventions, and ask what you want to build first.
+The LLM will run the initialization ritual: confirm the starter files, ask you to fill in any missing conventions, and ask what you want to build first.
 
 ---
 
