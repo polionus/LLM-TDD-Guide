@@ -134,9 +134,9 @@ You should see one passing test (`test_placeholder.py`). Delete that file once y
 
 **5. Start your first session.**
 
-Paste the contents of `WORKFLOW_GUIDE.md` into your LLM's context, or attach it as a file. Tell the LLM: *"This is our workflow guide. Let's start the first session."*
+Tell the agent: *"Read `WORKFLOW_GUIDE.md` and let's start the first session."*
 
-The LLM will run the initialization ritual: confirm the starter files, ask you to fill in any missing conventions, and ask what you want to build first.
+The agent will read the guide, run the initialization ritual, confirm the starter files, ask you to fill in any missing conventions, and ask what you want to build first.
 
 ---
 
